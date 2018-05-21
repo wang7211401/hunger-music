@@ -1,4 +1,4 @@
-# hunger-music
+# [hunger-music](http://shadowwang.top/hunger-music/index.html)
 
 ## 功能介绍
 
