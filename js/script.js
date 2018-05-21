@@ -93,6 +93,7 @@ var Footer = {
         })
         this.$ul.html($li)
         this.setStyle()
+        this.$ul.find('li').eq(1).click()
     },
     setStyle:function(){
         var rowCount = this.$ul.find('li').length
@@ -107,6 +108,7 @@ var Footer = {
 var app ={
     init:function(){
         this.$container = $('#page-music main')
+        this.$bar = this.$container.find('.bar')
         this.audio = new Audio()
         this.audio.autoplay = true
         this.currentSong = null
@@ -137,8 +139,7 @@ var app ={
                 _this.audio.play()
             }
         })
-        console.log(this.$container.find('.btn-text'))
-        this.$container.find('.icon-text').on('click',function(){
+        this.$container.find('.btn-next.icon-next').on('click',function(){
             _this.loadSong()
         })
         this.audio.addEventListener('play',function(){
@@ -165,10 +166,18 @@ var app ={
             }else{
               $(this).addClass('active')
               _this.collections[_this.currentSong.sid] = _this.currentSong
+              console.log(_this.collections)
             }
             _this.saveToLocal()
         })
-        
+        this.$bar.on('click',function(e) {
+            var percent = e.offsetX / parseInt(getComputedStyle(this).width)
+            _this.audio.currentTime = percent * _this.audio.duration
+            _this.$bar.find('.bar-progress').css({
+                'width':percent * 100 + "%"
+            })
+            _this.setLyric()
+        })
 
     },
     loadSong:function(){
@@ -195,6 +204,11 @@ var app ={
             'background-image': 'url('+ song.picture +')'
         })
         this.$container.find('.tag').text(this.channelName)
+        if(this.collections[song.sid]){
+            this.$container.find('.btn-collect').addClass('active')
+        }else{
+            this.$container.find('.btn-collect').removeClass('active')
+        }
         this.loadLyric(song.sid)
 
     },
@@ -232,8 +246,9 @@ var app ={
         return JSON.parse(localStorage['collections']||'{}')
     },
 
-    saveToLocal: function(){
+    saveToLocal: function(){     
         localStorage['collections'] = JSON.stringify(this.collections)
+        console.log(localStorage)
     },
 
     loadCollection: function(){
@@ -262,7 +277,7 @@ $.fn.boomText = function(type){
       if(index >= $boomTexts.length){
         clearInterval(clock)
       }
-    }, 300)
+    }, 100)
   }
 
 Footer.init()

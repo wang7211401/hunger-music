@@ -127,7 +127,7 @@
      background: #2e6eec;
    }
    main .detail h1{
-     font-size: 6vh;
+     font-size: 4vh;
      margin-top: 2vh;
    }
    main .icons{
@@ -153,6 +153,7 @@
      height: .8vh;
      border-radius: .2vh;
      background: rgba(255, 255, 255, 0.4);
+     cursor: pointer;
    }
    main .area-bar .current-time{
      width: 3vh;
